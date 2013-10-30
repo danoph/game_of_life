@@ -1,10 +1,28 @@
 class GameOfLife
   attr_reader :world, :grid_width, :grid_height
 
-  def initialize(cells, grid_height=4, grid_width=4)
-    @world = World.new(cells)
+  def initialize(world, cells, grid_height=4, grid_width=4)
+    @world = world
     @grid_width = grid_width
     @grid_height = grid_height
+
+    world.add_cells(all_cells(cells))
+  end
+
+  def all_cells(cells)
+    all_cells = []
+
+    (1..grid_height).each do |y|
+      (1..grid_width).each do |x|
+        if cell = cells.detect{|cell| cell.x == x && cell.y == y }
+          all_cells << cell
+        else
+          all_cells << Cell.new(world, x, y, :dead)
+        end
+      end
+    end
+
+    all_cells
   end
 
   def run
@@ -12,7 +30,7 @@ class GameOfLife
 
     (1..grid_height).each do |y|
       (1..grid_width).each do |x|
-        if world.cell_at?(x, y) && world.cells_hash["#{x},#{y}"].alive?
+        if world.cell_at(x, y).alive?
           output += "o"
         else
           output += " "
@@ -26,28 +44,29 @@ class GameOfLife
 end
 
 class World
-  attr_reader :cells, :cells_hash
+  attr_reader :cells_hash
 
-  def initialize(cells)
-    @cells = cells
+  def initialize
     @cells_hash = {}
+  end
 
+  def add_cells(cells)
     cells.each do |cell|
-      cells_hash[cell.key] = cell
+      @cells_hash[cell.key] = cell
     end
   end
 
-  def cell_at?(x, y)
-    cells_hash.has_key?("#{x},#{y}")
+  def cell_at(x, y)
+    cells_hash["#{x},#{y}"]
   end
 end
 
 class Cell
   attr_reader :x, :y, :state, :world
 
-  def initialize(world, x, y)
+  def initialize(world, x, y, state = :alive)
     @world = world
-    @state = :alive
+    @state = state
     @x = x
     @y = y
   end
