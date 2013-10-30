@@ -24,10 +24,10 @@ describe GameOfLife do
   let(:cell4) { Cell.new(world, 3, 3) }
   let(:dead_cell) { double 'dead cell', alive?: false }
 
-  let(:still_life) { "    \n oo \n oo \n    " }
+  let(:still_life) { "    \n OO \n OO \n    \n" }
 
   it 'should run' do
-    subject.run.should == still_life
+    subject.output.should == still_life
   end
 end
 

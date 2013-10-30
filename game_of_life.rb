@@ -31,19 +31,24 @@ class GameOfLife
     (1..grid_height).each do |y|
       (1..grid_width).each do |x|
         if world.cell_at(x, y).alive?
-          output += "o"
+          output += "O"
         else
           output += " "
         end
       end
-      output += "\n" unless y == 4
+      output += "\n" # unless y == 5
     end
 
     output
   end
 
   def run
-    output
+    while true
+      #system "clear"
+      puts output
+      world.tick!
+      sleep 0.75
+    end
   end
 end
 
