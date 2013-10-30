@@ -18,8 +18,10 @@ class GameOfLife
           output += " "
         end
       end
-      output += "\n"
+      output += "\n" unless y == 4
     end
+
+    output
   end
 end
 
