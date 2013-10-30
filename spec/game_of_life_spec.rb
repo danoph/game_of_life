@@ -6,19 +6,12 @@
 require_relative '../game_of_life'
 
 describe GameOfLife do
-  let(:world) { double 'world', cell_at: dead_cell, add_cells: nil }
+  let(:world) { World.new }
   let(:dead_cell) { double 'dead cell', alive?: false }
 
   subject { GameOfLife.new(world, cells) }
 
   context 'box pattern' do
-    before do
-      world.stub(:cell_at).with(2, 2) { cell1 }
-      world.stub(:cell_at).with(3, 2) { cell2 }
-      world.stub(:cell_at).with(2, 3) { cell3 }
-      world.stub(:cell_at).with(3, 3) { cell4 }
-    end
-
     let(:cells) { [ cell1, cell2, cell3, cell4 ] }
     let(:cell1) { Cell.new(world, 2, 2) }
     let(:cell2) { Cell.new(world, 3, 2) }
@@ -41,7 +34,7 @@ describe GameOfLife do
     let(:cell6) { Cell.new(world, 5, 4) }
     let(:cells) { [ cell1, cell2, cell3, cell4, cell5, cell6 ] }
 
-    let(:beacon_pattern) { "    \n OO \n OO \n    \n" }
+    let(:beacon_pattern) { "    \n OO \n O  \n    \n" }
 
     it 'displays beacon pattern' do
       world.tick!
@@ -51,7 +44,7 @@ describe GameOfLife do
 end
 
 describe World do
-  let(:world) { double 'world' }
+  let(:world) { double 'world', cell_at: nil }
 
   describe "#cell_at" do
     before { subject.add_cells(cells) }
@@ -75,7 +68,7 @@ describe World do
 
     it 'ticks world' do
       cells.each do |cell|
-        cell.should_receive(:tick!)
+        cell.should_receive(:tick)
       end
 
       subject.tick!
@@ -97,23 +90,6 @@ describe Cell do
   describe "#dead?" do
     it 'should be dead' do
       subject.dead?.should == false
-    end
-  end
-
-  describe "#die!" do
-    it 'should die' do
-      subject.dead?.should == false
-      subject.die!
-      subject.should be_dead
-    end
-  end
-
-  describe "#revive!" do
-    it 'should die' do
-      subject.die!
-      subject.should be_dead
-      subject.revive!
-      subject.should be_alive
     end
   end
 
@@ -199,13 +175,12 @@ describe Cell do
     end
   end
 
-  describe "#tick!" do
+  describe "#tick" do
     context 'when live cell' do
       context 'and fewer than two neighbors' do
         it 'dies' do
           subject.should be_alive
-          subject.tick!
-          subject.should be_dead
+          subject.tick.should be_dead
         end
       end
 
@@ -220,8 +195,7 @@ describe Cell do
 
         it 'stays alive' do
           subject.should be_alive
-          subject.tick!
-          subject.should be_alive
+          subject.tick.should be_alive
         end
       end
 
@@ -240,13 +214,14 @@ describe Cell do
 
         it 'stays alive' do
           subject.should be_alive
-          subject.tick!
-          subject.should be_dead
+          subject.tick.should be_dead
         end
       end
     end
 
     context 'when dead cell' do
+      subject { described_class.new(world, 2, 2, :dead) }
+
       context 'when three live neighbors' do
         let(:cell1) { Cell.new(world, 1, 1) }
         let(:cell2) { Cell.new(world, 2, 1) }
@@ -258,12 +233,9 @@ describe Cell do
           world.stub(:cell_at).with(subject.x+1, subject.y-1) { cell3 }
         end
 
-        before { subject.die! }
-
         it 'should become alive' do
           subject.should be_dead
-          subject.tick!
-          subject.should be_alive
+          subject.tick.should be_alive
         end
       end
     end

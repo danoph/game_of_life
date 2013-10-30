@@ -32,6 +32,6 @@ spaceship_cells = [
   Cell.new(world, 4, 2),
 ]
 
-game = GameOfLife.new(world, spaceship_cells, 8, 8)
+game = GameOfLife.new(world, beacon_cells, 8, 8)
 
 game.run

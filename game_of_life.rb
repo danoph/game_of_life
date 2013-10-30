@@ -36,7 +36,7 @@ class GameOfLife
           output += " "
         end
       end
-      output += "\n" # unless y == 5
+      output += "\n"
     end
 
     output
@@ -70,7 +70,13 @@ class World
   end
 
   def tick!
-    cells.each{|key, cell| cell.tick! }
+    new_cells = {}
+
+    cells.each do |key, cell|
+      new_cells[key] = cell.tick
+    end
+
+    @cells = new_cells
   end
 end
 
@@ -96,14 +102,6 @@ class Cell
     @state == :dead
   end
 
-  def die!
-    @state = :dead
-  end
-
-  def revive!
-    @state = :alive
-  end
-
   def neighbors
     [
       world.cell_at(x-1, y-1), # northwest
@@ -121,17 +119,19 @@ class Cell
     neighbors.select(&:alive?)
   end
 
-  def tick!
+  def tick
     if alive?
       if live_neighbors.count < 2 || live_neighbors.count > 3
-        die!
+        new_cell = Cell.new(world, x, y, :dead)
       elsif [2,3].include? live_neighbors.count
-        revive!
+        new_cell = Cell.new(world, x, y, :alive)
       end
     else
       if live_neighbors.count == 3
-        revive!
+        new_cell = Cell.new(world, x, y, :alive)
       end
     end
+
+    new_cell ||= self
   end
 end
