@@ -44,20 +44,20 @@ class GameOfLife
 end
 
 class World
-  attr_reader :cells_hash
+  attr_reader :cells
 
   def initialize
-    @cells_hash = {}
+    @cells = {}
   end
 
   def add_cells(cells)
     cells.each do |cell|
-      @cells_hash[cell.key] = cell
+      @cells[cell.key] = cell
     end
   end
 
   def cell_at(x, y)
-    cells_hash["#{x},#{y}"]
+    cells["#{x},#{y}"]
   end
 end
 
