@@ -41,9 +41,10 @@ class World
 end
 
 class Cell
-  attr_reader :x, :y, :state
+  attr_reader :x, :y, :state, :world
 
-  def initialize(x, y)
+  def initialize(world, x, y)
+    @world = world
     @state = :alive
     @x = x
     @y = y
@@ -59,5 +60,38 @@ class Cell
 
   def dead?
     @state == :dead
+  end
+
+  def die!
+    @state = :dead
+  end
+
+  def revive!
+    @state = :alive
+  end
+
+  def neighbors
+    [
+      world.cell_at(x-1, y-1), # northwest
+      world.cell_at(x, y-1), # north
+      world.cell_at(x+1, y-1), # northeast
+      world.cell_at(x+1, y), # east
+      world.cell_at(x+1, y+1), # southeast
+      world.cell_at(x, y+1), # south
+      world.cell_at(x-1, y+1), # southwest
+      world.cell_at(x-1, y) # west
+    ].compact
+  end
+
+  def live_neighbors
+    neighbors.select(&:alive?)
+  end
+
+  def tick!
+    if live_neighbors.count < 2
+      die!
+    elsif live_neighbors.count.in? [2,3]
+      revive!
+    end
   end
 end
