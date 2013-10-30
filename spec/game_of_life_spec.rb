@@ -1,3 +1,8 @@
+#Any live cell with fewer than two live neighbours dies, as if caused by under-population.
+#Any live cell with two or three live neighbours lives on to the next generation.
+#Any live cell with more than three live neighbours dies, as if by overcrowding.
+#Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+
 require_relative '../game_of_life'
 
 describe GameOfLife do
@@ -20,11 +25,14 @@ describe World do
   describe "#cell_at?" do
     subject { described_class.new(cells) }
 
-    let(:cells) { [ cell ] }
+    let(:cells) { [ cell, cell2 ] }
     let(:cell) { Cell.new(2, 2) }
+    let(:cell2) { Cell.new(4, 2) }
 
     it 'says whether cell is at a position' do
       subject.cell_at?(2, 2).should == true
+      subject.cell_at?(4, 2).should == true
+      subject.cell_at?(3, 2).should == false
     end
   end
 end

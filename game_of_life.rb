@@ -24,13 +24,19 @@ class GameOfLife
 end
 
 class World
-  attr_reader :cells
+  attr_reader :cells, :cells_hash
 
   def initialize(cells)
     @cells = cells
+    @cells_hash = {}
+
+    cells.each do |cell|
+      cells_hash[cell.key] = cell
+    end
   end
 
   def cell_at?(x, y)
+    cells_hash.has_key?("#{x},#{y}")
   end
 end
 
@@ -41,5 +47,9 @@ class Cell
     @state = :dead
     @x = x
     @y = y
+  end
+
+  def key
+    "#{x},#{y}"
   end
 end
