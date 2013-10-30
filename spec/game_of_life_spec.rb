@@ -158,7 +158,6 @@ describe Cell do
   end
 
   describe "#tick!" do
-    #Any live cell with more than three live neighbours dies, as if by overcrowding.
     #Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
     context 'when live cell' do
       context 'and fewer than two neighbors' do
@@ -184,25 +183,47 @@ describe Cell do
           subject.should be_alive
         end
       end
+
+      context 'when four neighbors' do
+        let(:cell1) { Cell.new(world, 1, 1) }
+        let(:cell2) { Cell.new(world, 2, 1) }
+        let(:cell3) { Cell.new(world, 3, 1) }
+        let(:cell4) { Cell.new(world, 1, 2) }
+
+        before do
+          world.stub(:cell_at).with(subject.x-1, subject.y-1) { cell1 }
+          world.stub(:cell_at).with(subject.x, subject.y-1) { cell2 }
+          world.stub(:cell_at).with(subject.x+1, subject.y-1) { cell3 }
+          world.stub(:cell_at).with(subject.x-1, subject.y) { cell4 }
+        end
+
+        it 'stays alive' do
+          subject.should be_alive
+          subject.tick!
+          subject.should be_dead
+        end
+      end
     end
 
-    context 'when four neighbors' do
-      let(:cell1) { Cell.new(world, 1, 1) }
-      let(:cell2) { Cell.new(world, 2, 1) }
-      let(:cell3) { Cell.new(world, 3, 1) }
-      let(:cell4) { Cell.new(world, 1, 2) }
+    context 'when dead cell' do
+      context 'when three live neighbors' do
+        let(:cell1) { Cell.new(world, 1, 1) }
+        let(:cell2) { Cell.new(world, 2, 1) }
+        let(:cell3) { Cell.new(world, 3, 1) }
 
-      before do
-        world.stub(:cell_at).with(subject.x-1, subject.y-1) { cell1 }
-        world.stub(:cell_at).with(subject.x, subject.y-1) { cell2 }
-        world.stub(:cell_at).with(subject.x+1, subject.y-1) { cell3 }
-        world.stub(:cell_at).with(subject.x-1, subject.y) { cell4 }
-      end
+        before do
+          world.stub(:cell_at).with(subject.x-1, subject.y-1) { cell1 }
+          world.stub(:cell_at).with(subject.x, subject.y-1) { cell2 }
+          world.stub(:cell_at).with(subject.x+1, subject.y-1) { cell3 }
+        end
 
-      it 'stays alive' do
-        subject.should be_alive
-        subject.tick!
-        subject.should be_dead
+        before { subject.die! }
+
+        it 'should become alive' do
+          subject.should be_dead
+          subject.tick!
+          subject.should be_alive
+        end
       end
     end
   end

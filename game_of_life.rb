@@ -88,10 +88,16 @@ class Cell
   end
 
   def tick!
-    if live_neighbors.count < 2 || live_neighbors.count > 3
-      die!
-    elsif [2,3].include? live_neighbors.count
-      revive!
+    if alive?
+      if live_neighbors.count < 2 || live_neighbors.count > 3
+        die!
+      elsif [2,3].include? live_neighbors.count
+        revive!
+      end
+    else
+      if live_neighbors.count == 3
+        revive!
+      end
     end
   end
 end
