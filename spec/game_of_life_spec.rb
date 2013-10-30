@@ -36,3 +36,19 @@ describe World do
     end
   end
 end
+
+describe Cell do
+  subject { described_class.new(2, 2) }
+
+  describe "#alive?" do
+    it 'should be alive' do
+      subject.alive?.should == true
+    end
+  end
+
+  describe "#dead?" do
+    it 'should be dead' do
+      subject.dead?.should == false
+    end
+  end
+end

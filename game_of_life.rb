@@ -12,7 +12,7 @@ class GameOfLife
 
     (1..grid_height).each do |y|
       (1..grid_width).each do |x|
-        if world.cell_at?(x, y)
+        if world.cell_at?(x, y) && world.cells_hash["#{x},#{y}"].alive?
           output += "o"
         else
           output += " "
@@ -44,12 +44,20 @@ class Cell
   attr_reader :x, :y, :state
 
   def initialize(x, y)
-    @state = :dead
+    @state = :alive
     @x = x
     @y = y
   end
 
   def key
     "#{x},#{y}"
+  end
+
+  def alive?
+    !dead?
+  end
+
+  def dead?
+    @state == :dead
   end
 end
