@@ -88,9 +88,9 @@ class Cell
   end
 
   def tick!
-    if live_neighbors.count < 2
+    if live_neighbors.count < 2 || live_neighbors.count > 3
       die!
-    elsif live_neighbors.count.in? [2,3]
+    elsif [2,3].include? live_neighbors.count
       revive!
     end
   end
