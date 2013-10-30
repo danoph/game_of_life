@@ -200,7 +200,6 @@ describe Cell do
   end
 
   describe "#tick!" do
-    #Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
     context 'when live cell' do
       context 'and fewer than two neighbors' do
         it 'dies' do
