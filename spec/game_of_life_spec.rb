@@ -32,9 +32,9 @@ describe GameOfLife do
 end
 
 describe World do
-  describe "#cell_at" do
-    let(:world) { double 'world' }
+  let(:world) { double 'world' }
 
+  describe "#cell_at" do
     before { subject.add_cells(cells) }
 
     let(:cells) { [ cell, cell2 ] }
@@ -44,6 +44,22 @@ describe World do
     it 'says whether cell is at a position' do
       subject.cell_at(2, 2).should == cell
       subject.cell_at(4, 2).should == cell2
+    end
+  end
+
+  describe "#tick!" do
+    before { subject.add_cells(cells) }
+
+    let(:cells) { [ cell, cell2 ] }
+    let(:cell) { Cell.new(world, 2, 2) }
+    let(:cell2) { Cell.new(world, 4, 2) }
+
+    it 'ticks world' do
+      cells.each do |cell|
+        cell.should_receive(:tick!)
+      end
+
+      subject.tick!
     end
   end
 end

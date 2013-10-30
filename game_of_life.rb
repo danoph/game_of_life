@@ -25,7 +25,7 @@ class GameOfLife
     all_cells
   end
 
-  def run
+  def output
     output = ""
 
     (1..grid_height).each do |y|
@@ -39,6 +39,10 @@ class GameOfLife
       output += "\n" unless y == 4
     end
 
+    output
+  end
+
+  def run
     output
   end
 end
@@ -58,6 +62,10 @@ class World
 
   def cell_at(x, y)
     cells["#{x},#{y}"]
+  end
+
+  def tick!
+    cells.each{|key, cell| cell.tick! }
   end
 end
 
