@@ -7,27 +7,46 @@ require_relative '../game_of_life'
 
 describe GameOfLife do
   let(:world) { double 'world', cell_at: dead_cell, add_cells: nil }
+  let(:dead_cell) { double 'dead cell', alive?: false }
 
   subject { GameOfLife.new(world, cells) }
 
-  before do
-    world.stub(:cell_at).with(2, 2) { cell1 }
-    world.stub(:cell_at).with(3, 2) { cell2 }
-    world.stub(:cell_at).with(2, 3) { cell3 }
-    world.stub(:cell_at).with(3, 3) { cell4 }
+  context 'box pattern' do
+    before do
+      world.stub(:cell_at).with(2, 2) { cell1 }
+      world.stub(:cell_at).with(3, 2) { cell2 }
+      world.stub(:cell_at).with(2, 3) { cell3 }
+      world.stub(:cell_at).with(3, 3) { cell4 }
+    end
+
+    let(:cells) { [ cell1, cell2, cell3, cell4 ] }
+    let(:cell1) { Cell.new(world, 2, 2) }
+    let(:cell2) { Cell.new(world, 3, 2) }
+    let(:cell3) { Cell.new(world, 2, 3) }
+    let(:cell4) { Cell.new(world, 3, 3) }
+
+    let(:block_pattern) { "    \n OO \n OO \n    \n" }
+
+    it 'displays block pattern' do
+      subject.output.should == block_pattern
+    end
   end
 
-  let(:cells) { [ cell1, cell2, cell3, cell4 ] }
-  let(:cell1) { Cell.new(world, 2, 2) }
-  let(:cell2) { Cell.new(world, 3, 2) }
-  let(:cell3) { Cell.new(world, 2, 3) }
-  let(:cell4) { Cell.new(world, 3, 3) }
-  let(:dead_cell) { double 'dead cell', alive?: false }
+  describe 'beacon pattern' do
+    let(:cell1) { Cell.new(world, 2, 2) }
+    let(:cell2) { Cell.new(world, 3, 2) }
+    let(:cell3) { Cell.new(world, 2, 3) }
+    let(:cell4) { Cell.new(world, 5, 5) }
+    let(:cell5) { Cell.new(world, 4, 5) }
+    let(:cell6) { Cell.new(world, 5, 4) }
+    let(:cells) { [ cell1, cell2, cell3, cell4, cell5, cell6 ] }
 
-  let(:still_life) { "    \n OO \n OO \n    \n" }
+    let(:beacon_pattern) { "    \n OO \n OO \n    \n" }
 
-  it 'should run' do
-    subject.output.should == still_life
+    it 'displays beacon pattern' do
+      world.tick!
+      subject.output.should == beacon_pattern
+    end
   end
 end
 

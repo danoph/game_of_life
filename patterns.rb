@@ -24,6 +24,14 @@ beacon_cells = [
   Cell.new(world, 5, 4)
 ]
 
-game = GameOfLife.new(world, beacon_cells, 6, 6)
+spaceship_cells = [
+  Cell.new(world, 3, 4),
+  Cell.new(world, 4, 4),
+  Cell.new(world, 5, 4),
+  Cell.new(world, 5, 3),
+  Cell.new(world, 4, 2),
+]
+
+game = GameOfLife.new(world, spaceship_cells, 8, 8)
 
 game.run
