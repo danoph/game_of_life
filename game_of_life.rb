@@ -121,11 +121,7 @@ end
 
 class DeadCell < Cell
   def tick
-    if live_neighbors.count == 3
-      LiveCell.new(world, x, y)
-    else
-      self
-    end
+    live_neighbors.count == 3 ?  LiveCell.new(world, x, y) : self
   end
 
   def alive?
