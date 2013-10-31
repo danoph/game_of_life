@@ -102,12 +102,12 @@ end
 class LiveCell < Cell
   def tick
     if live_neighbors.count < 2 || live_neighbors.count > 3
-      new_cell = DeadCell.new(world, x, y)
+      DeadCell.new(world, x, y)
     elsif [2,3].include? live_neighbors.count
-      new_cell = LiveCell.new(world, x, y)
+      LiveCell.new(world, x, y)
+    else
+      self
     end
-
-    new_cell || self
   end
 
   def alive?
@@ -121,7 +121,7 @@ end
 
 class DeadCell < Cell
   def tick
-    live_neighbors.count == 3 ?  LiveCell.new(world, x, y) : self
+    live_neighbors.count == 3 ? LiveCell.new(world, x, y) : self
   end
 
   def alive?
