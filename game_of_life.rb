@@ -125,11 +125,6 @@ class LiveCell < Cell
 end
 
 class DeadCell < Cell
-  def initialize(world, x, y)
-    super
-    @state = :dead
-  end
-
   def tick
     if live_neighbors.count == 3
       new_cell = LiveCell.new(world, x, y)
