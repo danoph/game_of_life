@@ -1,7 +1,7 @@
 class GameOfLife
   attr_reader :world, :grid_width, :grid_height
 
-  def initialize(world, cells, grid_height=4, grid_width=4)
+  def initialize(world, cells, grid_height=10, grid_width=10)
     @world = world
     @grid_width = grid_width
     @grid_height = grid_height
