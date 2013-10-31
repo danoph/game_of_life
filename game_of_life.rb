@@ -6,23 +6,21 @@ class GameOfLife
     @grid_width = grid_width
     @grid_height = grid_height
 
-    world.add_cells(all_cells(cells))
+    add_cells(cells)
   end
 
-  def all_cells(cells)
+  def add_cells(cells)
     all_cells = []
 
     (1..grid_height).each do |y|
       (1..grid_width).each do |x|
-        if cell = cells.detect{|cell| cell.x == x && cell.y == y }
-          all_cells << cell
-        else
-          all_cells << Cell.new(world, x, y, :dead)
+        unless cell = cells.detect{|cell| cell.x == x && cell.y == y }
+          cell = Cell.new(world, x, y, :dead)
         end
+
+        world.add_cell(cell)
       end
     end
-
-    all_cells
   end
 
   def output
@@ -54,9 +52,11 @@ class World
   end
 
   def add_cells(cells)
-    cells.each do |cell|
-      @cells[cell.key] = cell
-    end
+    cells.each {|cell| add_cell(cell) }
+  end
+
+  def add_cell(cell)
+    @cells[cell.key] = cell
   end
 
   def cell_at(x, y)
