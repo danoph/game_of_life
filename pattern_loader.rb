@@ -3,9 +3,9 @@ require 'open-uri'
 class PatternLoader
   attr_reader :url, :world, :description, :description_url
 
-  def initialize(url)
+  def initialize(url, world)
     @url = url
-    @world = World.new
+    @world = world || World.new
   end
 
   def name

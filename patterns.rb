@@ -34,11 +34,13 @@ spaceship_cells = [
 ]
 
 beacon = "http://conwaylife.com/patterns/1beacon.cells"
-
 threeships = "http://conwaylife.com/patterns/3enginecordership.cells"
+boats = "http://conwaylife.com/patterns/4boats.cells"
+fumaroles = "http://conwaylife.com/patterns/2fumaroles.cells"
+bricklayer = "http://conwaylife.com/patterns/bricklayer.cells"
 
-cells_from_internet = PatternLoader.new(threeships).cells
+cells_from_internet = PatternLoader.new(bricklayer, world).cells
 
-game = GameOfLife.new(world, spaceship_cells, 38, 100)
+game = GameOfLife.new(world, cells_from_internet, 39, 178)
 
 game.run
