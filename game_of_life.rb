@@ -30,11 +30,7 @@ class GameOfLife
 
     (1..grid_height).each do |y|
       (1..grid_width).each do |x|
-        if world.cell_at(x, y).alive?
-          output += "O"
-        else
-          output += " "
-        end
+        output += world.cell_at(x, y).to_s
       end
       output += "\n"
     end
@@ -133,5 +129,9 @@ class Cell
     end
 
     new_cell ||= self
+  end
+
+  def to_s
+    alive? ? "O" : "."
   end
 end

@@ -18,7 +18,7 @@ describe GameOfLife do
     let(:cell3) { Cell.new(world, 2, 3) }
     let(:cell4) { Cell.new(world, 3, 3) }
 
-    let(:block_pattern) { "    \n OO \n OO \n    \n" }
+    let(:block_pattern) { "....\n.OO.\n.OO.\n....\n" }
 
     it 'displays block pattern' do
       subject.output.should == block_pattern
@@ -34,7 +34,7 @@ describe GameOfLife do
     let(:cell6) { Cell.new(world, 5, 4) }
     let(:cells) { [ cell1, cell2, cell3, cell4, cell5, cell6 ] }
 
-    let(:beacon_pattern) { "    \n OO \n O  \n    \n" }
+    let(:beacon_pattern) { "....\n.OO.\n.O..\n....\n" }
 
     it 'displays beacon pattern' do
       world.tick!
