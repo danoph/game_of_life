@@ -76,7 +76,7 @@ describe World do
   end
 end
 
-describe Cell do
+describe LiveCell do
   let(:world) { double 'world', cell: nil }
 
   subject { described_class.new(world, 2, 2) }
@@ -162,12 +162,6 @@ describe Cell do
       end
     end
   end
-end
-
-describe LiveCell do
-  let(:world) { double 'world', cell: nil }
-
-  subject { described_class.new(world, 2, 2) }
 
   describe "#tick" do
     context 'and fewer than two neighbors' do

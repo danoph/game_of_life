@@ -75,7 +75,7 @@ class Cell
     @world = world
     @x = x
     @y = y
-    raise "Cannot instantiate directly!" if self.class == "Cell"
+    raise "Cannot instantiate directly!" if self.class == Cell
   end
 
   def key
