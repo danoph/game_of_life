@@ -122,10 +122,10 @@ end
 class DeadCell < Cell
   def tick
     if live_neighbors.count == 3
-      new_cell = LiveCell.new(world, x, y)
+      LiveCell.new(world, x, y)
+    else
+      self
     end
-
-    new_cell || self
   end
 
   def alive?
