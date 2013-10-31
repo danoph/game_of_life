@@ -10,8 +10,6 @@ class GameOfLife
   end
 
   def add_cells(cells)
-    all_cells = []
-
     (1..grid_height).each do |y|
       (1..grid_width).each do |x|
         cell = cells.detect{|cell| cell.x == x && cell.y == y } || DeadCell.new(world, x, y)
