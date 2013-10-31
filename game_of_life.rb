@@ -120,7 +120,7 @@ class Cell
       end
     end
 
-    new_cell ||= self
+    new_cell || self
   end
 
   def to_s
