@@ -64,13 +64,7 @@ class World
   end
 
   def tick!
-    new_cells = {}
-
-    cells.each do |key, cell|
-      new_cells[key] = cell.tick
-    end
-
-    @cells = new_cells
+    @cells = Hash[cells.map{|key,cell| [ key, cell.tick ] }]
   end
 end
 
