@@ -1,4 +1,5 @@
 require_relative 'game_of_life'
+require_relative 'pattern_loader'
 
 world = World.new
 
@@ -32,6 +33,12 @@ spaceship_cells = [
   LiveCell.new(world, 4, 2),
 ]
 
-game = GameOfLife.new(world, spaceship_cells, 40, 100)
+beacon = "http://conwaylife.com/patterns/1beacon.cells"
+
+threeships = "http://conwaylife.com/patterns/3enginecordership.cells"
+
+cells_from_internet = PatternLoader.new(threeships).cells
+
+game = GameOfLife.new(world, spaceship_cells, 38, 100)
 
 game.run

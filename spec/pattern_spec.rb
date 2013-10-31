@@ -43,5 +43,10 @@ describe PatternLoader do
     find_cell(subject.cells, 2, 1).should be_dead
     find_cell(subject.cells, 3, 1).should be_alive
     find_cell(subject.cells, 4, 1).should be_alive
+
+    find_cell(subject.cells, 1, 2).should be_dead
+    find_cell(subject.cells, 2, 2).should be_alive
+    find_cell(subject.cells, 3, 2).should be_dead
+    find_cell(subject.cells, 4, 2).should be_alive
   end
 end
