@@ -28,11 +28,9 @@ class GameOfLife
   def output
     output = ""
 
-    (1..grid_height).each do |y|
-      (1..grid_width).each do |x|
-        output += world.cell_at(x, y).to_s
-      end
-      output += "\n"
+    world.cells.each do |key, cell|
+      output += cell.to_s
+      output += "\n" if cell.x == grid_width
     end
 
     output
