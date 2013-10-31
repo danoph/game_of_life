@@ -240,4 +240,22 @@ describe Cell do
       end
     end
   end
+
+  describe '#to_s' do
+    context 'when alive' do
+      subject { described_class.new(world, 2, 2, :alive) }
+
+      it 'should be an O' do
+        subject.to_s.should == 'O'
+      end
+    end
+
+    context 'when dead' do
+      subject { described_class.new(world, 2, 2, :dead) }
+
+      it 'should be a dot' do
+        subject.to_s.should == '.'
+      end
+    end
+  end
 end
