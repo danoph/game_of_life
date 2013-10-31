@@ -44,9 +44,9 @@ describe GameOfLife do
 end
 
 describe World do
-  let(:world) { double 'world', cell_at: nil }
+  let(:world) { double 'world', cell: nil }
 
-  describe "#cell_at" do
+  describe "#cell" do
     before { subject.add_cells(cells) }
 
     let(:cells) { [ cell, cell2 ] }
@@ -54,8 +54,8 @@ describe World do
     let(:cell2) { Cell.new(world, 4, 2) }
 
     it 'says whether cell is at a position' do
-      subject.cell_at(2, 2).should == cell
-      subject.cell_at(4, 2).should == cell2
+      subject.cell(2, 2).should == cell
+      subject.cell(4, 2).should == cell2
     end
   end
 
@@ -77,7 +77,7 @@ describe World do
 end
 
 describe Cell do
-  let(:world) { double 'world', cell_at: nil }
+  let(:world) { double 'world', cell: nil }
 
   subject { described_class.new(world, 2, 2) }
 
@@ -95,7 +95,7 @@ describe Cell do
 
   describe '#neighbors' do
     describe '#northwest neighbor' do
-      before { world.stub(:cell_at).with(subject.x-1, subject.y-1) { cell } }
+      before { world.stub(:cell).with(subject.x-1, subject.y-1) { cell } }
 
       let(:cell) { Cell.new(world, 1, 1) }
 
@@ -105,7 +105,7 @@ describe Cell do
     end
 
     describe '#north neighbor' do
-      before { world.stub(:cell_at).with(subject.x, subject.y-1) { cell } }
+      before { world.stub(:cell).with(subject.x, subject.y-1) { cell } }
 
       let(:cell) { Cell.new(world, 2, 1) }
 
@@ -115,7 +115,7 @@ describe Cell do
     end
 
     describe '#norheast neighbor' do
-      before { world.stub(:cell_at).with(subject.x+1, subject.y-1) { cell } }
+      before { world.stub(:cell).with(subject.x+1, subject.y-1) { cell } }
 
       let(:cell) { Cell.new(world, 3, 1) }
 
@@ -125,7 +125,7 @@ describe Cell do
     end
 
     describe '#east neighbor' do
-      before { world.stub(:cell_at).with(subject.x+1, subject.y) { cell } }
+      before { world.stub(:cell).with(subject.x+1, subject.y) { cell } }
 
       let(:cell) { Cell.new(world, 3, 2) }
 
@@ -135,7 +135,7 @@ describe Cell do
     end
 
     describe '#southeast neighbor' do
-      before { world.stub(:cell_at).with(subject.x+1, subject.y+1) { cell } }
+      before { world.stub(:cell).with(subject.x+1, subject.y+1) { cell } }
 
       let(:cell) { Cell.new(world, 3, 3) }
 
@@ -145,7 +145,7 @@ describe Cell do
     end
 
     describe '#south neighbor' do
-      before { world.stub(:cell_at).with(subject.x, subject.y+1) { cell } }
+      before { world.stub(:cell).with(subject.x, subject.y+1) { cell } }
 
       let(:cell) { Cell.new(world, 2, 3) }
 
@@ -155,7 +155,7 @@ describe Cell do
     end
 
     describe '#southwest neighbor' do
-      before { world.stub(:cell_at).with(subject.x-1, subject.y+1) { cell } }
+      before { world.stub(:cell).with(subject.x-1, subject.y+1) { cell } }
 
       let(:cell) { Cell.new(world, 1, 3) }
 
@@ -165,7 +165,7 @@ describe Cell do
     end
 
     describe '#west neighbor' do
-      before { world.stub(:cell_at).with(subject.x-1, subject.y) { cell } }
+      before { world.stub(:cell).with(subject.x-1, subject.y) { cell } }
 
       let(:cell) { Cell.new(world, 1, 2) }
 
@@ -189,8 +189,8 @@ describe Cell do
         let(:cell2) { Cell.new(world, 1, 1) }
 
         before do
-          world.stub(:cell_at).with(subject.x, subject.y+1) { cell1 }
-          world.stub(:cell_at).with(subject.x-1, subject.y-1) { cell2 }
+          world.stub(:cell).with(subject.x, subject.y+1) { cell1 }
+          world.stub(:cell).with(subject.x-1, subject.y-1) { cell2 }
         end
 
         it 'stays alive' do
@@ -206,10 +206,10 @@ describe Cell do
         let(:cell4) { Cell.new(world, 1, 2) }
 
         before do
-          world.stub(:cell_at).with(subject.x-1, subject.y-1) { cell1 }
-          world.stub(:cell_at).with(subject.x, subject.y-1) { cell2 }
-          world.stub(:cell_at).with(subject.x+1, subject.y-1) { cell3 }
-          world.stub(:cell_at).with(subject.x-1, subject.y) { cell4 }
+          world.stub(:cell).with(subject.x-1, subject.y-1) { cell1 }
+          world.stub(:cell).with(subject.x, subject.y-1) { cell2 }
+          world.stub(:cell).with(subject.x+1, subject.y-1) { cell3 }
+          world.stub(:cell).with(subject.x-1, subject.y) { cell4 }
         end
 
         it 'stays alive' do
@@ -228,9 +228,9 @@ describe Cell do
         let(:cell3) { Cell.new(world, 3, 1) }
 
         before do
-          world.stub(:cell_at).with(subject.x-1, subject.y-1) { cell1 }
-          world.stub(:cell_at).with(subject.x, subject.y-1) { cell2 }
-          world.stub(:cell_at).with(subject.x+1, subject.y-1) { cell3 }
+          world.stub(:cell).with(subject.x-1, subject.y-1) { cell1 }
+          world.stub(:cell).with(subject.x, subject.y-1) { cell2 }
+          world.stub(:cell).with(subject.x+1, subject.y-1) { cell3 }
         end
 
         it 'should become alive' do

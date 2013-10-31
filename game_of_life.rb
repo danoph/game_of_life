@@ -1,7 +1,7 @@
 class GameOfLife
   attr_reader :world, :grid_width, :grid_height
 
-  def initialize(world, cells, grid_height=10, grid_width=10)
+  def initialize(world, cells, grid_height=4, grid_width=4)
     @world = world
     @grid_width = grid_width
     @grid_height = grid_height
@@ -59,7 +59,7 @@ class World
     @cells[cell.key] = cell
   end
 
-  def cell_at(x, y)
+  def cell(x, y)
     cells["#{x},#{y}"]
   end
 
@@ -92,14 +92,14 @@ class Cell
 
   def neighbors
     [
-      world.cell_at(x-1, y-1), # northwest
-      world.cell_at(x, y-1), # north
-      world.cell_at(x+1, y-1), # northeast
-      world.cell_at(x+1, y), # east
-      world.cell_at(x+1, y+1), # southeast
-      world.cell_at(x, y+1), # south
-      world.cell_at(x-1, y+1), # southwest
-      world.cell_at(x-1, y) # west
+      world.cell(x-1, y-1), # northwest
+      world.cell(x, y-1), # north
+      world.cell(x+1, y-1), # northeast
+      world.cell(x+1, y), # east
+      world.cell(x+1, y+1), # southeast
+      world.cell(x, y+1), # south
+      world.cell(x-1, y+1), # southwest
+      world.cell(x-1, y) # west
     ].compact
   end
 
