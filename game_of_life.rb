@@ -14,10 +14,7 @@ class GameOfLife
 
     (1..grid_height).each do |y|
       (1..grid_width).each do |x|
-        unless cell = cells.detect{|cell| cell.x == x && cell.y == y }
-          cell = DeadCell.new(world, x, y)
-        end
-
+        cell = cells.detect{|cell| cell.x == x && cell.y == y } || DeadCell.new(world, x, y)
         world.add_cell(cell)
       end
     end
