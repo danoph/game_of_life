@@ -39,7 +39,7 @@ class GameOfLife
       system "clear"
       puts output
       world.tick!
-      sleep 0.25
+      sleep 0.1
     end
   end
 end
@@ -69,7 +69,7 @@ class World
 end
 
 class Cell
-  attr_reader :x, :y, :state, :world
+  attr_reader :world, :x, :y, :state
 
   def initialize(world, x, y, state = :alive)
     @world = world
@@ -87,7 +87,7 @@ class Cell
   end
 
   def dead?
-    @state == :dead
+    state == :dead
   end
 
   def neighbors
