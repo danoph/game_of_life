@@ -15,7 +15,7 @@ class GameOfLife
     (1..grid_height).each do |y|
       (1..grid_width).each do |x|
         unless cell = cells.detect{|cell| cell.x == x && cell.y == y }
-          cell = Cell.new(world, x, y, :dead)
+          cell = DeadCell.new(world, x, y)
         end
 
         world.add_cell(cell)
@@ -69,25 +69,21 @@ class World
 end
 
 class Cell
-  attr_reader :world, :x, :y, :state
+  attr_reader :world, :x, :y
 
-  def initialize(world, x, y, state = :alive)
+  def initialize(world, x, y)
     @world = world
-    @state = state
     @x = x
     @y = y
+    raise "Cannot instantiate directly!" if self.class == "Cell"
   end
 
   def key
     "#{x},#{y}"
   end
 
-  def alive?
-    !dead?
-  end
-
   def dead?
-    state == :dead
+    !alive?
   end
 
   def neighbors
@@ -106,24 +102,47 @@ class Cell
   def live_neighbors
     neighbors.select(&:alive?)
   end
+end
 
+class LiveCell < Cell
   def tick
-    if alive?
-      if live_neighbors.count < 2 || live_neighbors.count > 3
-        new_cell = Cell.new(world, x, y, :dead)
-      elsif [2,3].include? live_neighbors.count
-        new_cell = Cell.new(world, x, y, :alive)
-      end
-    else
-      if live_neighbors.count == 3
-        new_cell = Cell.new(world, x, y, :alive)
-      end
+    if live_neighbors.count < 2 || live_neighbors.count > 3
+      new_cell = DeadCell.new(world, x, y)
+    elsif [2,3].include? live_neighbors.count
+      new_cell = LiveCell.new(world, x, y)
     end
 
     new_cell || self
   end
 
+  def alive?
+    true
+  end
+
   def to_s
-    alive? ? "O" : "."
+    "O"
+  end
+end
+
+class DeadCell < Cell
+  def initialize(world, x, y)
+    super
+    @state = :dead
+  end
+
+  def tick
+    if live_neighbors.count == 3
+      new_cell = LiveCell.new(world, x, y)
+    end
+
+    new_cell || self
+  end
+
+  def alive?
+    false
+  end
+
+  def to_s
+    "."
   end
 end
