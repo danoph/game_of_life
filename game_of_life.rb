@@ -31,10 +31,8 @@ class GameOfLife
 
   def run
     while true
-      system "clear"
       puts output
       world.tick!
-      sleep 0.1
     end
   end
 end
